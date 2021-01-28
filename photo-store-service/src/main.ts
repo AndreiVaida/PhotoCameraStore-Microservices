@@ -7,7 +7,12 @@ async function bootstrap() {
       AppModule,
       {
         transport: Transport.TCP,
-        options: { retryAttempts: 5, retryDelay: 3000 },
+        options: {
+            port: 3002,
+            retryAttempts: 5,
+            retryDelay: 3000,
+            // host: "CAMERA_SERVICE",
+        },
       },
   );
   app.listen(() => console.log('Microservice is listening'));

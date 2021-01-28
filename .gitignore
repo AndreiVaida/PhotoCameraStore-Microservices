@@ -25,3 +25,5 @@ coverage
 *.launch
 .settings/
 *.sublime-workspace
+
+.eslintcache

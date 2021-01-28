@@ -19,6 +19,13 @@ export class AppController {
         );
     }
 
+    @Get('home')
+    homePage(): any {
+        return {
+            title: 'Photo camera store',
+        };
+    }
+
     @Get('cameras')
     getPhotoCameras(): Observable<PhotoCamera[]> {
         console.log('> GET /cameras');
