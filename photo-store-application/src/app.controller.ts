@@ -1,15 +1,23 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { ClientProxy } from '@nestjs/microservices';
-import { PHOTO_CAMERA_SERVICE } from './configuration/Constraints';
+import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { PHOTO_CAMERA_APPLICATION, PHOTO_CAMERA_SERVICE } from './configuration/Constraints';
 import PhotoCamera from './model/PhotoCamera';
 
 @Controller()
 export class AppController {
     constructor(
-        @Inject(PHOTO_CAMERA_SERVICE) private readonly client: ClientProxy,
+        @Inject(PHOTO_CAMERA_APPLICATION) private readonly client: ClientProxy,
     ) {
     }
+
+    // private readonly client = ClientProxyFactory.create({
+    //     transport: Transport.TCP,
+    //     options: {
+    //         // host: PHOTO_CAMERA_SERVICE,
+    //         port: 3002
+    //     }
+    // });
 
     @Get()
     mainPage(): string {

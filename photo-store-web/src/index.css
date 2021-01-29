@@ -14,5 +14,30 @@ code {
 
 .clickableWhite:hover {
   cursor: pointer;
-  color: #8dc6f3;
+  color: #B3E4FF;
+}
+
+.highlight-hover:hover {
+  backdrop-filter: brightness(1.1);
+}
+
+.highlight-hover2:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.highlight-hover3:hover {
+  color: #B3E4FF;
+}
+
+.code {
+  font-family: "Courier New", serif;
+}
+
+.big-button {
+  width: 20vh;
+}
+
+.combobox {
+  margin-left: 42%;
+  margin-right: 42%;
 }

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { PHOTO_CAMERA_SERVICE } from "./configuration/Constraints";
+import { PHOTO_CAMERA_APPLICATION } from "./configuration/Constraints";
 
 @Module({
   imports: [ClientsModule.register([{
-    name: PHOTO_CAMERA_SERVICE,
+    name: PHOTO_CAMERA_APPLICATION,
     transport: Transport.TCP,
     options: {
-      host: "CAMERA_SERVICE",
+      // host: PHOTO_CAMERA_APPLICATION,
       port: 3002,
     },
   }])],
