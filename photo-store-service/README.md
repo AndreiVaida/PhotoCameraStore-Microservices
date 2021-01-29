@@ -1,4 +1,4 @@
-# Photo camera application server
+# Photo camera application microservice
 
 ## Running the app
 ```bash

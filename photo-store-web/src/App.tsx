@@ -8,8 +8,6 @@ import 'react-dropdown/style.css';
 const API_URL = "http://localhost:3001";
 
 function App() {
-    // Hello message
-    const [helloMessage, setHelloMessage] = useState<string>("");
     // All photo cameras
     const [allPhotoCameras, setAllPhotoCameras] = useState<PhotoCamera[]>([]);
     const [showAllCameras, setShowAllCameras] = useState<boolean>(false);
@@ -20,12 +18,6 @@ function App() {
     const [idToDelete, setIdToDelete] = useState<number>(0);
     const [deleteCameraMessage, setDeleteCameraMessage] = useState<string>("");
 
-    function handleGetHello() {
-        fetch(`${API_URL}/home`)
-            .then(response => response.json())
-            .then(data => setHelloMessage(data.title));
-    }
-
     function handleGetAllPhotoCameras() {
         fetch(`${API_URL}/cameras`)
             .then(response => {
@@ -33,7 +25,6 @@ function App() {
                 return response.json();
             })
             .then(cameras => {
-                console.log(cameras);
                 setAllPhotoCameras(cameras);
                 setShowAllCameras(true);
             })
@@ -45,6 +36,11 @@ function App() {
     }
 
     function handleAddPhotoCameras() {
+        if (newCamera.name.trim() === '' || !newCamera.sensorSize) {
+            setAddCameraMessage("Please provide a non-empty name and sensor size.");
+            return;
+        }
+
         fetch(`${API_URL}/cameras`, {
             method: 'POST',
             headers: {
@@ -58,6 +54,7 @@ function App() {
             })
             .then(camera => {
                 setAddCameraMessage(`Photo camera added with id: ${camera.id}`);
+                handleGetAllPhotoCameras();
             })
             .catch(error => {
                 console.error(error);
@@ -72,12 +69,12 @@ function App() {
         })
             .then(response => {
                 if (!response.ok) throw response;
-                console.log(response);
                 return response.text()
             })
             .then(cameraOrNull => {
                 if (cameraOrNull.length) {
                     setDeleteCameraMessage(`Photo camera deleted: ${cameraOrNull}`)
+                    handleGetAllPhotoCameras();
                 } else {
                     setDeleteCameraMessage(`Photo camera not found.`)
                 }
@@ -100,11 +97,6 @@ function App() {
     return (
         <div className="App">
             <div className="App-header">
-                {/* GET hello */}
-                <div className={"m-2 p-5 highlight-hover w-100"}>
-                    <button onClick={handleGetHello} className={"btn btn-outline-light big-button"}>GET hello</button>
-                    <p>{helloMessage}</p>
-                </div>
                 {/* GET Photo cameras */}
                 <div className={"m-2 p-5 highlight-hover w-100"}>
                     <button onClick={handleGetAllPhotoCameras} className={"btn btn-outline-light big-button"}>GET all photo cameras</button>
@@ -126,7 +118,7 @@ function App() {
 
                         <Dropdown options={[SensorSize.FullFrame, SensorSize.APSC, SensorSize.MicroFourThirds]}
                                   onChange={e => setNewCamera(prev => ({...prev, sensorSize: e.value as SensorSize}))}
-                                  placeholder="Select an option"
+                                  value={SensorSize.FullFrame}
                                   className={'combobox'}/>
                         <button onClick={handleAddPhotoCameras} className={"btn btn-outline-light big-button"}>ADD photo cameras</button>
                         <p>{addCameraMessage}</p>
