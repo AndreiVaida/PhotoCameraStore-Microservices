@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './bootstrap.min.css';
 
+export const API_URL = "http://localhost:3001";
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

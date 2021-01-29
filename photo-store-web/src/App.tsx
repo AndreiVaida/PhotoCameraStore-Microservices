@@ -4,10 +4,12 @@ import PhotoCamera from "./model/PhotoCamera";
 import { SensorSize } from "./model/SensorSize";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-
-const API_URL = "http://localhost:3001";
+import NavigationBar from './common/NavigationBar';
+import { API_URL } from './index';
+import AuthService from './common/AuthService';
 
 function App() {
+    const authService: AuthService = new AuthService();
     // All photo cameras
     const [allPhotoCameras, setAllPhotoCameras] = useState<PhotoCamera[]>([]);
     const [showAllCameras, setShowAllCameras] = useState<boolean>(false);
@@ -45,6 +47,7 @@ function App() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': authService.getJwt(),
             },
             body: JSON.stringify(newCamera),
         })
@@ -65,7 +68,10 @@ function App() {
 
     function handleDeletePhotoCameras() {
         fetch(`${API_URL}/cameras/${idToDelete}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': authService.getJwt(),
+            }
         })
             .then(response => {
                 if (!response.ok) throw response;
@@ -96,6 +102,7 @@ function App() {
 
     return (
         <div className="App">
+            <NavigationBar authService={authService} />
             <div className="App-header">
                 {/* GET Photo cameras */}
                 <div className={"m-2 p-5 highlight-hover w-100"}>

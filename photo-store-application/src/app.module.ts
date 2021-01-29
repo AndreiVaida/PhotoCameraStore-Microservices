@@ -8,6 +8,7 @@ import { AuthService } from './auth/AuthService';
 import { AppController } from './controllers/AppController';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './auth/JwtStrategy';
 
 @Module({
   imports: [ClientsModule.register([{
@@ -25,7 +26,7 @@ import { PassportModule } from '@nestjs/passport';
     }),
   ],
   controllers: [AppController, PhotoCameraController],
-  providers: [UsersService, AuthService, LocalStrategy, JwtModule],
+  providers: [UsersService, AuthService, LocalStrategy, JwtModule, JwtStrategy],
   exports: [UsersService],
 })
 export class AppModule {}

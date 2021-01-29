@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, UseGuards, } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { PHOTO_CAMERA_APPLICATION } from '../configuration/Constraints';
 import PhotoCamera from '../model/PhotoCamera';
+import { JwtAuthGuard } from "../auth/JwtAuthGuard";
 
 @Controller()
 export class PhotoCameraController {
@@ -43,6 +44,7 @@ export class PhotoCameraController {
   }
 
   @Post('cameras')
+  @UseGuards(JwtAuthGuard)
   addPhotoCamera(@Body() photoCamera: PhotoCamera): Observable<PhotoCamera> {
     console.log(`> POST /cameras {${photoCamera.name}}`);
     this.client.emit('write-event', { type: 'sync' });
@@ -52,6 +54,7 @@ export class PhotoCameraController {
   }
 
   @Delete('cameras/:id')
+  @UseGuards(JwtAuthGuard)
   deletePhotoCamera(
     @Param('id') photoCameraId: number,
   ): Observable<PhotoCamera> {
