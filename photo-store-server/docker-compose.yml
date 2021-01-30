@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  photo-app:
-    container_name: photo-app1
-    image: photo-app1
+  photo-server:
+    container_name: photo-server1
+    image: photo-server1
     build:
       context: .
     volumes:

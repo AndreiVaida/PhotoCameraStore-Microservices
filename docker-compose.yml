@@ -17,15 +17,15 @@ services:
     networks:
       - webnet
     links:
-      - photo-app
+      - photo-server
 
-  photo-app:
-    container_name: photo-app2
-    image: photo-app2
+  photo-server:
+    container_name: photo-server2
+    image: photo-server2
     build:
-      context: ./photo-store-application
+      context: ./photo-store-server
     volumes:
-      - ./photo-store-application:/app
+      - ./photo-store-server:/app
       - /app/node_modules
     ports:
       - 3001:3001
@@ -35,15 +35,15 @@ services:
     networks:
       - webnet
     links:
-      - photo-server
+      - photo-microservice
 
-  photo-server:
-    container_name: photo-server2
-    image: photo-server2
+  photo-microservice:
+    container_name: photo-microservice2
+    image: photo-microservice2
     build:
-      context: ./photo-store-service
+      context: ./photo-store-microservice
     volumes:
-      - ./photo-store-service:/app
+      - ./photo-store-microservice:/app
       - /app/node_modules
     ports:
       - 3002:3002

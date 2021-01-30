@@ -1,4 +1,4 @@
-# Photo camera web client
+# Photo camera application web client
 
 ## Running the app
 ```bash

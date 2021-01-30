@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, UseGuards, } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
-import { PHOTO_CAMERA_APPLICATION } from '../configuration/Constraints';
+import { PHOTO_CAMERA_SERVER } from '../configuration/Constraints';
 import PhotoCamera from '../model/PhotoCamera';
 import { JwtAuthGuard } from '../auth/JwtAuthGuard';
 
 @Controller()
 export class PhotoCameraController {
   constructor(
-    @Inject(PHOTO_CAMERA_APPLICATION) private readonly client: ClientProxy,
+    @Inject(PHOTO_CAMERA_SERVER) private readonly client: ClientProxy,
   ) {}
 
   @Get()

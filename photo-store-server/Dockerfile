@@ -1,5 +1,5 @@
 FROM node:10.16.3
-WORKDIR /photo_app
+WORKDIR /photo-server
 COPY package*.json ./
 RUN npm install
 COPY . .

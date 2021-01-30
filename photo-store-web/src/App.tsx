@@ -214,7 +214,7 @@ function App() {
                 <div className={"m-2 p-5 highlight-hover w-100 bg-danger"}>
                     <div>
                         <label>Photo camera id:</label> <br/>
-                        <input type='number' value={idToDelete} onChange={e => setIdToDelete(+e.target.value)} className={'w-25'}/> <br/>
+                        <input type='number' value={idToDelete} onChange={e => setIdToDelete(+e.target.value)} className={'w-25 text-center'}/> <br/>
                         <button onClick={handleDeletePhotoCameras} className={"btn btn-outline-light big-button"}>DELETE photo cameras</button>
                         <p>{deleteCameraMessage}</p>
                     </div>

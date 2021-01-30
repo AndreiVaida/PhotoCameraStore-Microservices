@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  photo-server:
-    container_name: photo-server1
-    image: photo-server1
+  photo-microservice:
+    container_name: photo-microservice1
+    image: photo-microservice1
     build:
       context: .
     volumes:
