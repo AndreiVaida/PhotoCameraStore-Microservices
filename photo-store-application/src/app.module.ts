@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PhotoCameraController } from './controllers/photoCameraController';
+import { PhotoCameraController } from './controllers/PhotoCameraController';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PHOTO_CAMERA_APPLICATION, SECRET_KEY } from './configuration/Constraints';
 import { UsersService } from './auth/UsersService';
@@ -16,7 +16,7 @@ import { FirebaseController } from './controllers/FirebaseController';
     name: PHOTO_CAMERA_APPLICATION,
     transport: Transport.TCP,
     options: {
-      // host: PHOTO_CAMERA_APPLICATION,
+      host: 'host.docker.internal', // only for Docker!
       port: 3002,
     },
   }]),

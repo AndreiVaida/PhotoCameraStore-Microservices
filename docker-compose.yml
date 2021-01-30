@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   photo-web:
-    container_name: photo-web1
-    image: photo-web1
+    container_name: photo-web2
+    image: photo-web2
     build:
       context: ./photo-store-web
     volumes:
@@ -11,6 +11,8 @@ services:
       - /app/node_modules
     ports:
       - 3000:3000
+    expose:
+      - 3000
     command: npm start
     networks:
       - webnet
@@ -18,8 +20,8 @@ services:
       - photo-app
 
   photo-app:
-    container_name: photo-app1
-    image: photo-app1
+    container_name: photo-app2
+    image: photo-app2
     build:
       context: ./photo-store-application
     volumes:
@@ -27,6 +29,8 @@ services:
       - /app/node_modules
     ports:
       - 3001:3001
+    expose:
+      - 3001
     command: npm run start:dev
     networks:
       - webnet
@@ -34,15 +38,15 @@ services:
       - photo-server
 
   photo-server:
-    container_name: photo-server1
-    image: photo-server1
+    container_name: photo-server2
+    image: photo-server2
     build:
       context: ./photo-store-service
     volumes:
       - ./photo-store-service:/app
       - /app/node_modules
-    #ports:
-    #  - 3002:3002
+    ports:
+      - 3002:3002
     command: npm run start:dev
     networks:
       - webnet

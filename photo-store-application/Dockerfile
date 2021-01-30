@@ -1,9 +1,8 @@
 FROM node:10.16.3
-WORKDIR /app
+WORKDIR /photo_app
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 EXPOSE 3001
-EXPOSE 3002
 CMD ["node", "dist/main"]

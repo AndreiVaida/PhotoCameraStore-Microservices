@@ -11,14 +11,6 @@ export class PhotoCameraController {
     @Inject(PHOTO_CAMERA_APPLICATION) private readonly client: ClientProxy,
   ) {}
 
-  // private readonly client = ClientProxyFactory.create({
-  //     transport: Transport.TCP,
-  //     options: {
-  //         // host: PHOTO_CAMERA_SERVICE,
-  //         port: 3002
-  //     }
-  // });
-
   @Get()
   mainPage(): string {
     return (

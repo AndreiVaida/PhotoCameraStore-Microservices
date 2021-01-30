@@ -24,6 +24,7 @@ function App() {
     const [cartInfo, setCartInfo] = useState<string>('');
     const [cart, setCart] = useState<Cart>(new Cart('', []));
 
+    // All photo cameras
     function handleGetAllPhotoCameras() {
         fetch(`${API_URL}/cameras`)
             .then(response => {
@@ -41,6 +42,7 @@ function App() {
             });
     }
 
+    // Add photo cameras
     function handleAddPhotoCameras() {
         if (newCamera.name.trim() === '' || !newCamera.sensorSize) {
             setAddCameraMessage("Please provide a non-empty name and sensor size.");
@@ -70,6 +72,7 @@ function App() {
             });
     }
 
+    // Delete photo cameras
     function handleDeletePhotoCameras() {
         fetch(`${API_URL}/cameras/${idToDelete}`, {
             method: 'DELETE',
@@ -96,6 +99,7 @@ function App() {
             });
     }
 
+    // Cart
     function handleGetCart() {
         fetch(`${API_URL}/cart/${authService.getUsername()}`, {
             headers: {
@@ -174,6 +178,7 @@ function App() {
         </div>;
     }
 
+    // Render
     return (
         <div className="App">
             <NavigationBar authService={authService} />

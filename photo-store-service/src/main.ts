@@ -8,7 +8,7 @@ async function bootstrap() {
       {
         transport: Transport.TCP,
         options: {
-            // host: PHOTO_CAMERA_SERVICE,
+            host: '127.0.0.1',
             port: 3002,
             retryAttempts: 5,
             retryDelay: 500,

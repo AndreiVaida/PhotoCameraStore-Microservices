@@ -1,3 +1,5 @@
+import { SensorSize } from './SensorSize';
+
 export default class PhotoCamera {
   id: number;
   name: string;
