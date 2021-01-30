@@ -1,5 +1,5 @@
-enum SensorSize {
-    MicroFourThirds,
-    APSC,
-    FullFrame
+export enum SensorSize {
+  FullFrame,
+  APSC,
+  MicroFourThirds,
 }

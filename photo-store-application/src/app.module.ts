@@ -9,6 +9,7 @@ import { AppController } from './controllers/AppController';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './auth/JwtStrategy';
+import { FirebaseController } from './controllers/FirebaseController';
 
 @Module({
   imports: [ClientsModule.register([{
@@ -22,10 +23,10 @@ import { JwtStrategy } from './auth/JwtStrategy';
     PassportModule,
     JwtModule.register({
       secret: SECRET_KEY,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '10 days' },
     }),
   ],
-  controllers: [AppController, PhotoCameraController],
+  controllers: [AppController, PhotoCameraController, FirebaseController],
   providers: [UsersService, AuthService, LocalStrategy, JwtModule, JwtStrategy],
   exports: [UsersService],
 })

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { PHOTO_CAMERA_APPLICATION } from '../configuration/Constraints';
 import PhotoCamera from '../model/PhotoCamera';
-import { JwtAuthGuard } from "../auth/JwtAuthGuard";
+import { JwtAuthGuard } from '../auth/JwtAuthGuard';
 
 @Controller()
 export class PhotoCameraController {
@@ -55,9 +55,7 @@ export class PhotoCameraController {
 
   @Delete('cameras/:id')
   @UseGuards(JwtAuthGuard)
-  deletePhotoCamera(
-    @Param('id') photoCameraId: number,
-  ): Observable<PhotoCamera> {
+  deletePhotoCamera(@Param('id') photoCameraId: number): Observable<PhotoCamera> {
     console.log(`> DELETE /cameras/${photoCameraId}`);
     this.client.emit('write-event', { type: 'sync' });
 

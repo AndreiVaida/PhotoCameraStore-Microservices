@@ -7,6 +7,7 @@ import 'react-dropdown/style.css';
 import NavigationBar from './common/NavigationBar';
 import { API_URL } from './index';
 import AuthService from './common/AuthService';
+import Cart from './model/Cart';
 
 function App() {
     const authService: AuthService = new AuthService();
@@ -19,6 +20,9 @@ function App() {
     // Delete photo cameras
     const [idToDelete, setIdToDelete] = useState<number>(0);
     const [deleteCameraMessage, setDeleteCameraMessage] = useState<string>("");
+    // Cart
+    const [cartInfo, setCartInfo] = useState<string>('');
+    const [cart, setCart] = useState<Cart>(new Cart('', []));
 
     function handleGetAllPhotoCameras() {
         fetch(`${API_URL}/cameras`)
@@ -92,11 +96,81 @@ function App() {
             });
     }
 
-    function createPhotoCameraContainer(camera: PhotoCamera) {
+    function handleGetCart() {
+        fetch(`${API_URL}/cart/${authService.getUsername()}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authService.getJwt(),
+            },
+        })
+          .then(response => {
+              if (!response.ok) throw response;
+              return response.json();
+          })
+          .then(cart => {
+              setCart(cart);
+              setCartInfo(`You have ${cart.photoCameras.length} cameras in cart`);
+          })
+          .catch(error => {
+              console.error(error);
+              alert("Something went wrong :(");
+          });
+    }
+
+    function handleAddToCart(camera: PhotoCamera) {
+        fetch(`${API_URL}/cart/${authService.getUsername()}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authService.getJwt(),
+            },
+            body: JSON.stringify(camera),
+        })
+          .then(response => {
+              if (!response.ok) throw response;
+              return response.text();
+          })
+          .then(numberOfItems => {
+              handleGetCart();
+          })
+          .catch(error => {
+              console.error(error);
+              alert("Something went wrong :(");
+          });
+    }
+
+    function handleRemoveFromCart(camera: PhotoCamera) {
+        fetch(`${API_URL}/cart/${authService.getUsername()}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authService.getJwt(),
+            },
+            body: JSON.stringify(camera),
+        })
+          .then(response => {
+              if (!response.ok) throw response;
+              return response.text();
+          })
+          .then(numberOfItems => {
+              handleGetCart();
+          })
+          .catch(error => {
+              console.error(error);
+              alert("Something went wrong :(");
+          });
+    }
+
+    function createPhotoCameraContainer(camera: PhotoCamera, addToCartButton: boolean) {
         return <div className={"highlight-hover2"} key={'div_for_' + camera.id.toString()}>
             <label className={"highlight-hover3 m-3 code"}>Id: {camera.id}</label>
             <label className={"highlight-hover3 m-3 code"}>Name: {camera.name}</label>
             <label className={"highlight-hover3 m-3 code"}>Sensor: {camera.sensorSize}</label>
+            {
+                addToCartButton
+                  ? <button className={"btn btn-success"} onClick={() => handleAddToCart(camera)}>Add to cart</button>
+                  : <button className={"btn btn-danger"} onClick={() => handleRemoveFromCart(camera)}>Remove from cart</button>
+            }
         </div>;
     }
 
@@ -112,7 +186,7 @@ function App() {
                             showAllCameras ? <label>Found {allPhotoCameras.length} photo cameras:</label> : ''
                         }
                         {
-                            allPhotoCameras.map((camera, index) => createPhotoCameraContainer(camera))
+                            allPhotoCameras.map((camera, index) => createPhotoCameraContainer(camera, true))
                         }
                     </div>
                 </div>
@@ -138,6 +212,16 @@ function App() {
                         <input type='number' value={idToDelete} onChange={e => setIdToDelete(+e.target.value)} className={'w-25'}/> <br/>
                         <button onClick={handleDeletePhotoCameras} className={"btn btn-outline-light big-button"}>DELETE photo cameras</button>
                         <p>{deleteCameraMessage}</p>
+                    </div>
+                </div>
+                {/* Cart */}
+                <div className={"m-2 p-5 highlight-hover w-100"}>
+                    <button onClick={handleGetCart} className={"btn btn-outline-light big-button"}>GET cart</button> <br/>
+                    <label>{cartInfo}</label>
+                    <div>
+                        {
+                            cart.photoCameras.map((camera, index) => createPhotoCameraContainer(camera, false))
+                        }
                     </div>
                 </div>
             </div>

@@ -12,11 +12,11 @@ export class AuthService {
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
     if (user && user.password === pass) {
-      console.log(`√ User ${username} authorized.`);
+      console.log(`√ User ${username} authorized to Login.`);
       const { password, ...result } = user;
       return result;
     }
-    console.log(`✗ User ${username} not authorized.`);
+    console.log(`✗ User ${username} not authorized to Login.`);
     return null;
   }
 
