@@ -73,7 +73,7 @@ function App() {
     }
 
     // Delete photo cameras
-    function handleDeletePhotoCameras() {
+    function handleDeletePhotoCamera() {
         fetch(`${API_URL}/cameras/${idToDelete}`, {
             method: 'DELETE',
             headers: {
@@ -215,7 +215,7 @@ function App() {
                     <div>
                         <label>Photo camera id:</label> <br/>
                         <input type='number' value={idToDelete} onChange={e => setIdToDelete(+e.target.value)} className={'w-25 text-center'}/> <br/>
-                        <button onClick={handleDeletePhotoCameras} className={"btn btn-outline-light big-button"}>DELETE photo cameras</button>
+                        <button onClick={handleDeletePhotoCamera} className={"btn btn-outline-light big-button"}>DELETE photo cameras</button>
                         <p>{deleteCameraMessage}</p>
                     </div>
                 </div>
