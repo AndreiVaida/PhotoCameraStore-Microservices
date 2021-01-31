@@ -1,13 +1,11 @@
 import { Controller } from '@nestjs/common';
-import { AppService } from './services/app.service';
 import { PhotoCameraService } from "./services/PhotoCameraService";
 import { EventPattern, MessagePattern } from "@nestjs/microservices";
 import PhotoCamera from "./model/PhotoCamera";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService,
-              private readonly photoCameraService: PhotoCameraService) {}
+  constructor(private readonly photoCameraService: PhotoCameraService) {}
 
   @MessagePattern({ cmd: 'get-all' })
   async getPhotoCameras(): Promise<PhotoCamera[]> {
