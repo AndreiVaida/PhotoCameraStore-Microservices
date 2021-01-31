@@ -8,7 +8,7 @@ import Cart from '../model/Cart';
 import { JwtAuthGuard } from '../auth/JwtAuthGuard';
 
 @Controller()
-export class FirebaseController {
+export class FirebaseCartController {
   private db: _firestore.Firestore;
 
   constructor() {

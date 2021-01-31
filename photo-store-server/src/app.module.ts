@@ -9,14 +9,14 @@ import { AppController } from './controllers/AppController';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './auth/JwtStrategy';
-import { FirebaseController } from './controllers/FirebaseController';
+import { FirebaseCartController } from './controllers/FirebaseCartController';
 
 @Module({
   imports: [ClientsModule.register([{
     name: PHOTO_CAMERA_SERVER,
     transport: Transport.TCP,
     options: {
-      host: 'host.docker.internal', // only for Docker!
+      // host: 'host.docker.internal', // only for Docker!
       port: 3002,
     },
   }]),
@@ -26,8 +26,8 @@ import { FirebaseController } from './controllers/FirebaseController';
       signOptions: { expiresIn: '10 days' },
     }),
   ],
-  controllers: [AppController, PhotoCameraController, FirebaseController],
-  providers: [UsersService, AuthService, LocalStrategy, JwtModule, JwtStrategy],
+  controllers: [AppController, PhotoCameraController, FirebaseCartController],
+  providers: [UsersService, AuthService, LocalStrategy, JwtModule, JwtStrategy, StateService],
   exports: [UsersService],
 })
 export class AppModule {}
