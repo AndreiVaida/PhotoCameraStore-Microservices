@@ -7,9 +7,7 @@ import { JwtAuthGuard } from '../auth/JwtAuthGuard';
 
 @Controller()
 export class PhotoCameraController {
-  constructor(
-    @Inject(PHOTO_CAMERA_SERVER) private readonly client: ClientProxy,
-  ) {}
+  constructor(@Inject(PHOTO_CAMERA_SERVER) private readonly client: ClientProxy) {}
 
   @Get()
   mainPage(): string {

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PhotoCameraController } from './controllers/PhotoCameraController';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PHOTO_CAMERA_SERVER, SECRET_KEY } from './configuration/Constraints';
-import { UsersService } from './auth/UsersService';
+import { UserService } from './auth/user.service';
 import { LocalStrategy } from './auth/LocalStrategy';
 import { AuthService } from './auth/AuthService';
 import { AppController } from './controllers/AppController';
@@ -27,7 +27,7 @@ import { FirebaseCartController } from './controllers/FirebaseCartController';
     }),
   ],
   controllers: [AppController, PhotoCameraController, FirebaseCartController],
-  providers: [UsersService, AuthService, LocalStrategy, JwtModule, JwtStrategy, StateService],
-  exports: [UsersService],
+  providers: [UserService, AuthService, LocalStrategy, JwtModule, JwtStrategy, StateService],
+  exports: [UserService],
 })
 export class AppModule {}

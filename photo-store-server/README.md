@@ -13,6 +13,7 @@ $ npm run start:prod
 ```
 
 ## Using Docker
+Note: In order to communicate with external services, in `app.modiule.ts` the host must be provided by uncommenting the line `host: 'host.docker.internal'`.
 ```bash
 # see running processes
 # add '-a' to see all processes
