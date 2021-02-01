@@ -26,7 +26,7 @@ $ docker build -t photo-store-microservice .
 # '-d' for detached
 # '-p' maps HOST_PORT:CONTAINER_PORT
 # '--name' gives an arbitrary name to the image (that appears in 'docker ps -a')
-$ docker run -dp 3002:3002 --name photo-microservice photo-store-microservice
+$ docker run -p 3002:3002 --name photo-microservice photo-store-microservice
 ____________________________________________________________________________________________________
 
 # b) build and run with docker-compose.yml

@@ -17,7 +17,7 @@ import WebsocketGateway from './controllers/WebsocketGateway';
     name: PHOTO_CAMERA_SERVER,
     transport: Transport.TCP,
     options: {
-      // host: 'host.docker.internal', // only for Docker!
+      host: 'host.docker.internal', // if you run from Docker
       port: 3002,
     },
   }]),

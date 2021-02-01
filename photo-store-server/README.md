@@ -27,7 +27,7 @@ $ docker build -t photo-store-server .
 # '-d' for detached
 # '-p' maps HOST_PORT:CONTAINER_PORT
 # '--name' gives an arbitrary name to the image (that appears in 'docker ps -a')
-$ docker run -dp 3001:3001 --name photo-server photo-store-server
+$ docker run -p 3001:3001 --name photo-server photo-store-server
 ____________________________________________________________________________________________________
 
 # b) build and run with docker-compose.yml
