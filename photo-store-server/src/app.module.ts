@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './auth/JwtStrategy';
 import { FirebaseCartController } from './controllers/FirebaseCartController';
+import WebsocketGateway from './controllers/WebsocketGateway';
 
 @Module({
   imports: [ClientsModule.register([{
@@ -27,7 +28,7 @@ import { FirebaseCartController } from './controllers/FirebaseCartController';
     }),
   ],
   controllers: [AppController, PhotoCameraController, FirebaseCartController],
-  providers: [UserService, AuthService, LocalStrategy, JwtModule, JwtStrategy, StateService],
+  providers: [UserService, AuthService, LocalStrategy, JwtModule, JwtStrategy, WebsocketGateway],
   exports: [UserService],
 })
 export class AppModule {}

@@ -4,10 +4,12 @@ import { ClientProxy } from '@nestjs/microservices';
 import { PHOTO_CAMERA_SERVER } from '../configuration/Constraints';
 import PhotoCamera from '../model/PhotoCamera';
 import { JwtAuthGuard } from '../auth/JwtAuthGuard';
+import WebsocketGateway from './WebsocketGateway';
 
 @Controller()
 export class PhotoCameraController {
-  constructor(@Inject(PHOTO_CAMERA_SERVER) private readonly client: ClientProxy) {}
+  constructor(@Inject(PHOTO_CAMERA_SERVER) private readonly client: ClientProxy,
+              private readonly websocket: WebsocketGateway) {}
 
   @Get()
   mainPage(): string {
@@ -40,7 +42,10 @@ export class PhotoCameraController {
     this.client.emit('write-event', { type: 'sync' });
 
     const pattern = { cmd: 'add' };
-    return this.client.send<PhotoCamera>(pattern, photoCamera);
+    const photoCameraObservable = this.client.send<PhotoCamera>(pattern, photoCamera);
+
+    this.websocket.sendWriteEvent('addPhotoCamera');
+    return photoCameraObservable;
   }
 
   @Delete('cameras/:id')
@@ -50,6 +55,9 @@ export class PhotoCameraController {
     this.client.emit('write-event', { type: 'sync' });
 
     const pattern = { cmd: 'delete' };
-    return this.client.send<PhotoCamera>(pattern, photoCameraId);
+    const photoCameraObservable = this.client.send<PhotoCamera>(pattern, photoCameraId);
+
+    this.websocket.sendWriteEvent('deletePhotoCamera');
+    return photoCameraObservable;
   }
 }

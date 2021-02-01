@@ -1,16 +1,24 @@
 # Photo store application
 
 ## Technologies
-- React React Web Application _(application 1)_
+- React Web Application _(application 1)_
 - NestJS HTTP Server _(application 2)_
 - NestJS Microservice _(application 3)_
 - JWT authentication
 - Google Cloud Firestore
+- Socket.IO
 - Docker
+
+## Service-Oriented Architecture patterns
+- REST services
+- Microservices architecture
+- JWT authentication and access
+- Database as a Service (Google Cloud Firestore)
+- Server-side notifications (Socket.IO WebSocket)
 
 ## Functionalities
 - view all photo cameras in the store
-- login (hardcoded user _Andrei_ and password _parola_)
+- login _(hardcoded user 'Andrei' and password 'parola')_
 - add photo camera
 - delete photo camera
 - view cart
@@ -27,11 +35,11 @@ Note: The server can be started in Docker with `docker-compose up`. See individu
 Just navigate to `http://localhost:3000`.
 
 ### NestJS HTTP Server
-API url: `http://localhost:3001`
+REST API url: `http://localhost:3001`
 - GET `/` and `/home` returns a basic welcome HTML page, respectively the json `{title: 'Photo camera store'}` 
 - GET `/cameras` returns a `PhotoCamera[]` array
 - POST `/cameras` with a `PhotoCamera` body adds the camera into the store and returns the created `PhotoCamera` (it will have an ID associated)
-- DELETE `/cameras/:id` deletes the camera from the store (based on provided ID) and returns the deleted `PhotoCamera`
+- DELETE `/cameras/:id` deletes the camera from the store and returns the deleted `PhotoCamera`
 - POST `/login` with a `User` body authenticates the user and returns a JWT like `{"jwt": "Bearer abc123}`
 - GET `/cart/:username` returns the user's `Cart`
 - POST `/cart/:username` with a `PhotoCamera` body adds the camera to user's cart and returns the new `Cart`
@@ -45,25 +53,26 @@ API url: `http://localhost:3001`
 ## NestJS Microservice
 Running on TCP `127.0.0.1:3002`
 - Message `{ cmd: 'get-all' }` returns a `PhotoCamera[]` array
-- Message `{ cmd: 'add' }` with a `PhotoCamera` parameter adds the camera into the store and returns the created `PhotoCamera` (it will have an ID associated)
-- Message `{ cmd: 'delete' }` with a `number` param deletes the camera from the store (based on provided ID) and returns the deleted `PhotoCamera`
+- Message `{ cmd: 'add' }` with a `PhotoCamera` as data adds the camera into the store and returns the created `PhotoCamera` (it will have an ID associated)
+- Message `{ cmd: 'delete' }` with a `number` as data deletes the camera from the store and returns the deleted `PhotoCamera`
 - Event `'read-event'` logs in console
 - Event `'write-event'` logs in console
 
-# Diagrams
+## Diagrams
 
 Level 1:
-## System diagram
+### System diagram
 ```mermaid
 graph TD
     User([User])-.-uses-.->WebApplication(React Web Application)
     WebApplication-.->HttpServer(NestJS HTTP Server)
     HttpServer-.->Microservice(NestJS Microservice)
     HttpServer-.->GoogleCloudFirestore(Google Cloud Firestore)
+    HttpServer-.-sends-.->WebApplication
 ```
 
 Level 2:
-## Container diagram (of Photo Camera Store application)
+### Container diagram
 ```mermaid
 graph TD
     WebApplication-->HttpServer
@@ -72,7 +81,7 @@ graph TD
 ```
 
 Level 3:
-## Component diagram (of React Web Application)
+### Component diagram (of React Web Application)
 ```mermaid
 graph TD
     Client-->App
@@ -91,7 +100,7 @@ graph TD
     end
 ```
 
-## Component diagram (of NestJS HTTP Server)
+### Component diagram (of NestJS HTTP Server)
 ```mermaid
 graph TD
     Client-->AppController
@@ -120,7 +129,7 @@ graph TD
     end
 ```
 
-## Component diagram (of NestJS Microservice)
+### Component diagram (of NestJS Microservice)
 ```mermaid
 graph TD
     Client-->AppController
@@ -134,7 +143,7 @@ graph TD
 ```
 
 Level 4:
-## Code diagram
+### Code diagram
 Node: Classes of _NestJS Microservice_ are suffixed with `_MICRO`, _NestJS HTTP Server_ with `_SERVER` and _React Web Application_ with `_WEB`.
 ```mermaid
 classDiagram
@@ -176,7 +185,14 @@ NestJS HTTP Server
         + photoCameras: PhotoCamera[]
     }
     Cart *-- PhotoCamera
-      
+    
+    class WebsocketGateway_SERVER {
+        - wss: Server
+        + sendWriteEvent()
+        + handleEvent()
+    }
+    WebsocketGateway_SERVER<-->SocketIo
+    
     class PhotoCameraController_SERVER {
         - client: ClientProxy
         + mainPage()
@@ -186,6 +202,7 @@ NestJS HTTP Server
     }
     PhotoCameraController_SERVER --> PhotoCamera
     PhotoCameraController_SERVER --> ClientProxy
+    PhotoCameraController_SERVER --> WebsocketGateway_SERVER
     ClientProxy --> AppController_MICRO
     
     class FirebaseCartController_SERVER {
@@ -255,4 +272,5 @@ React Web Application
     App_WEB --> AuthService_WEB
     App_WEB --> PhotoCameraController_SERVER
     App_WEB --> FirebaseCartController_SERVER
+    App_WEB <--> SocketIo
 ```
