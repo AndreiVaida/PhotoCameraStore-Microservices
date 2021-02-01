@@ -46,7 +46,7 @@ function NavigationBar(props: any) {
 
   return (
     <nav className="navbar navbar-light justify-content-between container-fluid bg-transparent fixed-top">
-      <a className="navbar-brand text-white">Photo camera store</a>
+      <label className="navbar-brand text-white">Photo camera store</label>
       <div className="form-inline">
         {
           userIsLoggedIn
